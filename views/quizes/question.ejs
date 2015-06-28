@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+<html>
+  <% include ../head %>
+  <body>
+    <h2>Quiz: el juego de las preguntas</h2>
+    <form method="get" action="/quizes/answer">
+      Pregunta: <%= pregunta %><p>
+      <input type="text" name="respuesta"/>
+      <input type="submit" value="Enviar"/>
+    </form>
+  </body>
+</html>
