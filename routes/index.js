@@ -10,6 +10,7 @@ router.get('/', function(req, res, next) {
 router.param('quizId', controllers.load); // autoload :quizId
 
 router.get('/quizes', controllers.index);
+router.get('/search', controllers.index);
 router.get('/quizes/:quizId(\\d+)', controllers.show);
 router.get('/quizes/:quizId(\\d+)/answer', controllers.answer);
 

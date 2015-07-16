@@ -14,7 +14,16 @@ exports.load = function(req, res, next, quizId) {
 }
 
 exports.index = function(req, res) {
-	models.Quiz.findAll().then(function(quizes) {
+
+	var search = "";
+
+	if (req.param('search') !== undefined) {
+		search = req.param('search');
+	}
+
+	search = "%" + search + "%";
+
+	models.Quiz.findAll({where:["pregunta like ?", search]}).then(function(quizes) {
 		res.render('quizes/index.ejs', {quizes: quizes});
 	});
 }
