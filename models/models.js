@@ -26,16 +26,46 @@ var sequelize = new Sequelize(DB_name, user, pwd,
 var Quiz = sequelize.import(path.join(__dirname, 'quiz'));
 exports.Quiz = Quiz;
 
-sequelize.sync().then(function(){
-	Quiz.count().then(function(count){
-		if (count === 0) {
-			Quiz.create({pregunta: 'Capital de Italia',
-						 respuesta: 'Roma'
-						});
+var createQuiz = function(pregunta, respuesta) {
+	return {pregunta: pregunta, respuesta: respuesta};
+}
 
-			Quiz.create({pregunta: 'Capital de Portugal',
-						 respuesta: 'Lisboa'
-			}).then(function(){console.log('Base de datos inicializada')});
-		};
+var quizesArray = [];
+var quizNumber = 0;
+quizesArray[quizNumber++] = createQuiz('Capital de Italia', 'Roma');
+quizesArray[quizNumber++] = createQuiz('Capital de Portugal', 'Lisboa');
+quizesArray[quizNumber++] = createQuiz('Capital de España', 'Madrid');
+quizesArray[quizNumber++] = createQuiz('Capital de Francia', 'París');
+
+var createData = function() {
+	for (index = 0; index < quizNumber; ++index) {
+		if (index === (quizNumber - 1)) {
+			Quiz.create(quizesArray[index]).then(function(){console.log('Base de datos inicializada')});
+		} else {
+			Quiz.create(quizesArray[index]);
+		}
+	}
+};
+
+var refreshData = function(result){
+	for (index = 0; index < result.length; ++index) {
+		if (index === (result.length - 1)) {
+			result[index].destroy().then(createData());
+		} else {
+			result[index].destroy();
+		}
+	}
+};
+
+sequelize.sync().then(function(){
+	Quiz.findAll().then(function(result){
+		if (result.length > 0)
+		{
+			refreshData(result);
+		}
+		else
+		{
+			createData();
+		}
 	});
 });
