@@ -18,7 +18,7 @@ exports.index = function(req, res) {
 	var search = "";
 
 	if (req.param('search') !== undefined) {
-		search = req.param('search');
+		search = req.param('search').replace(" ", "%");
 	}
 
 	search = "%" + search + "%";
