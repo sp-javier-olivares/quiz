@@ -42,6 +42,21 @@ exports.answer = function(req, res) {
 	res.render('quizes/answer', {quiz: req.quiz, respuesta: resultado});
 };
 
+exports.new = function(req, res) {
+
+	res.render('quizes/new', {});
+};
+
+exports.create = function(req, res) {
+
+	console.log("Parametros de llegada : " + req.body.respuesta);
+	var newQuiz = models.Quiz.build({pregunta: req.body.pregunta, respuesta: req.body.respuesta});
+	
+	newQuiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
+		res.redirect('/quizes');
+	});
+};
+
 exports.autor = function(req, res) {
 	res.render('author', {});
 };

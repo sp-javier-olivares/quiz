@@ -11,9 +11,10 @@ router.param('quizId', controllers.load); // autoload :quizId
 
 router.get('/quizes', controllers.index);
 router.get('/search', controllers.index);
+router.get('/quizes/new', controllers.new);
+router.post('/quizes/create', controllers.create);
 router.get('/quizes/:quizId(\\d+)', controllers.show);
 router.get('/quizes/:quizId(\\d+)/answer', controllers.answer);
-
 router.get('/author', controllers.autor);
 
 module.exports = router;

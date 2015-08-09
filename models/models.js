@@ -58,14 +58,24 @@ var refreshData = function(result){
 };
 
 sequelize.sync().then(function(){
-	Quiz.findAll().then(function(result){
-		if (result.length > 0)
-		{
-			refreshData(result);
-		}
-		else
-		{
-			createData();
+
+	Quiz.count().then(function(amount) {
+
+		console.log("count: " + amount + "; array: " + quizesArray.length);
+
+		if (amount < quizesArray.length) {
+
+			Quiz.findAll().then(function(result){
+
+				if (result.length > 0)
+				{
+					refreshData(result);
+				}
+				else
+				{
+					createData();
+				}
+			});
 		}
 	});
 });
