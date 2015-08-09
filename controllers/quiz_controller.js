@@ -44,13 +44,15 @@ exports.answer = function(req, res) {
 
 exports.new = function(req, res) {
 
-	res.render('quizes/new', {});
+	var newQuiz = models.Quiz.build({pregunta: "Pregunta", respuesta: "Respuesta"});
+
+	res.render('quizes/new', {quiz: newQuiz});
 };
 
 exports.create = function(req, res) {
 
-	console.log("Parametros de llegada : " + req.body.respuesta);
-	var newQuiz = models.Quiz.build({pregunta: req.body.pregunta, respuesta: req.body.respuesta});
+	console.log("Parametros de llegada : " + req.body.quiz);
+	var newQuiz = models.Quiz.build({pregunta: req.body.quiz.pregunta, respuesta: req.body.quiz.respuesta});
 	
 	newQuiz.save({fields: ["pregunta", "respuesta"]}).then(function(){
 		res.redirect('/quizes');
