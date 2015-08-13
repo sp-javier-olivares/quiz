@@ -23,8 +23,11 @@ var sequelize = new Sequelize(DB_name, user, pwd,
 						}
 					);
 
+/******************************/
+/******* Quiz *****************/
+/******************************/
+
 var Quiz = sequelize.import(path.join(__dirname, 'quiz'));
-exports.Quiz = Quiz;
 
 var createQuiz = function(pregunta, respuesta, tema) {
 	return {pregunta: pregunta, respuesta: respuesta, tema: tema};
@@ -56,6 +59,25 @@ var refreshData = function(result){
 		}
 	}
 };
+
+/******************************/
+/******* Comments *************/
+/******************************/
+
+var Comment = sequelize.import(path.join(__dirname, 'comment'));
+
+Comment.belongsTo(Quiz);
+Quiz.hasMany(Comment);
+
+
+
+
+/******************************/
+/******* Initialize ***********/
+/******************************/
+
+exports.Quiz = Quiz;
+exports.Comment = Comment;
 
 sequelize.sync({force: true}).then(function(){
 
