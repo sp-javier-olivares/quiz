@@ -26,16 +26,16 @@ var sequelize = new Sequelize(DB_name, user, pwd,
 var Quiz = sequelize.import(path.join(__dirname, 'quiz'));
 exports.Quiz = Quiz;
 
-var createQuiz = function(pregunta, respuesta) {
-	return {pregunta: pregunta, respuesta: respuesta};
+var createQuiz = function(pregunta, respuesta, tema) {
+	return {pregunta: pregunta, respuesta: respuesta, tema: tema};
 }
 
 var quizesArray = [];
 var quizNumber = 0;
-quizesArray[quizNumber++] = createQuiz('Capital de Italia', 'Roma');
-quizesArray[quizNumber++] = createQuiz('Capital de Portugal', 'Lisboa');
-quizesArray[quizNumber++] = createQuiz('Capital de España', 'Madrid');
-quizesArray[quizNumber++] = createQuiz('Capital de Francia', 'París');
+quizesArray[quizNumber++] = createQuiz('Capital de Italia', 'Roma', 'Geografía');
+quizesArray[quizNumber++] = createQuiz('Capital de Portugal', 'Lisboa', 'Geografía');
+quizesArray[quizNumber++] = createQuiz('Capital de España', 'Madrid', 'Geografía');
+quizesArray[quizNumber++] = createQuiz('Capital de Francia', 'París', 'Geografía');
 
 var createData = function() {
 	for (index = 0; index < quizNumber; ++index) {
@@ -57,7 +57,7 @@ var refreshData = function(result){
 	}
 };
 
-sequelize.sync().then(function(){
+sequelize.sync({force: true}).then(function(){
 
 	Quiz.count().then(function(amount) {
 
