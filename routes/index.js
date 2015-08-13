@@ -2,14 +2,20 @@ var express = require('express');
 var router = express.Router();
 var quizControllers = require('../controllers/quiz_controller.js');
 var commentControllers = require('../controllers/comment_controller.js');
+var sessionControllers = require('../controllers/session_controller.js');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Quiz' , errors: []});
 });
 
-router.param('quizId', quizControllers.load); // autoload :quizId
+// sesion
+router.get('/login', sessionControllers.new);
+router.post('/login', sessionControllers.create);
+router.get('/logout', sessionControllers.destroy);
 
+// quizes
+router.param('quizId', quizControllers.load); // autoload :quizId
 router.get('/quizes', quizControllers.index);
 router.get('/search', quizControllers.index);
 router.get('/quizes/new', quizControllers.new);
@@ -21,6 +27,7 @@ router.put('/quizes/:quizId(\\d+)', quizControllers.update);
 router.delete('/quizes/:quizId(\\d+)', quizControllers.destroy);
 router.get('/author', quizControllers.autor);
 
+// comentarios
 router.get('/quizes/:quizId(\\d+)/comments/new', commentControllers.new);
 router.post('/quizes/:quizId(\\d+)/comments', commentControllers.create);
 
