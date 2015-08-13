@@ -15,6 +15,8 @@ router.get('/quizes/new', controllers.new);
 router.post('/quizes/create', controllers.create);
 router.get('/quizes/:quizId(\\d+)', controllers.show);
 router.get('/quizes/:quizId(\\d+)/answer', controllers.answer);
+router.get('/quizes/:quizId(\\d+)/edit', controllers.edit);
+router.put('/quizes/:quizId(\\d+)', controllers.update);
 router.get('/author', controllers.autor);
 
 module.exports = router;
