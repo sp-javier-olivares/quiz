@@ -28,7 +28,9 @@ router.delete('/quizes/:quizId(\\d+)', sessionControllers.loginRequired, quizCon
 router.get('/author', quizControllers.autor);
 
 // comentarios
+router.param('commentId', commentControllers.load);
 router.get('/quizes/:quizId(\\d+)/comments/new', commentControllers.new);
 router.post('/quizes/:quizId(\\d+)/comments', commentControllers.create);
+router.get('/quizes/:quizId(\\d+)/comments/:commentId(\\d+)/publish', sessionControllers.loginRequired, commentControllers.publish);
 
 module.exports = router;
