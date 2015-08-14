@@ -33,7 +33,14 @@ exports.create = function(req, res) {
 	});
 };
 
-exports.destroy = function(req, res) {
+var logout = function(req, res) {
+	console.log("destruyo session");
 	delete req.session.user;
+}
+
+exports.logout = logout;
+
+exports.destroy = function(req, res) {
+	logout(req, res);
 	res.redirect(req.session.redir.toString());
 };

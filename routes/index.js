@@ -4,6 +4,28 @@ var quizControllers = require('../controllers/quiz_controller.js');
 var commentControllers = require('../controllers/comment_controller.js');
 var sessionControllers = require('../controllers/session_controller.js');
 
+
+router.use(function(req, res, next) {
+
+	if (req.session.user) {
+		if (typeof req.session.lastTransaction !== "undefined") {
+			var diff = new Date((new Date).getTime() - req.session.lastTransaction);
+			console.log("La ultima vez que he entrado fue hace: " + diff.getSeconds());
+
+			if (diff.getSeconds() > 10) {
+				delete req.session.lastTransaction;
+				sessionControllers.logout(req, res);
+				next();
+				return;
+			}
+		}
+		req.session.lastTransaction = (new Date()).getTime();
+		next();
+	} else {
+		next();
+	}
+});
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Quiz' , errors: []});
