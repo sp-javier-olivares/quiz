@@ -1,3 +1,11 @@
+exports.loginRequired = function(req, res, next) {
+	if (req.session.user) {
+		next();
+	} else {
+		res.redirect('/login');
+	}
+};
+
 exports.new = function(req, res) {
 
 	var errors = typeof req.session.errors === 'undefined'? [] : req.session.errors;
